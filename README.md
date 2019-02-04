@@ -1,1 +1,1 @@
-# Lab_ContnTimeMarkov
+# Lab: Continuous-Time Markov Model
