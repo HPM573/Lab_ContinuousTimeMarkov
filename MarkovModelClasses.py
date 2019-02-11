@@ -19,23 +19,7 @@ class Patient:
     def simulate(self, sim_length):
         """ simulate the patient over the specified simulation length """
 
-        t = 0  # simulation time
-        if_stop = False  # set to true to stop the simulation
 
-        # while the patient is alive and simulation length is not yet reached
-        while not if_stop:
-
-            dt, new_state_index = self.gillespie.get_next_state(
-                current_state_index=self.stateMonitor.currentState.value,
-                rng=self.rng)
-
-            if dt is None or dt + t > sim_length:
-                if_stop = True
-            else:
-                # increment time
-                t += dt
-                # update health state
-                self.stateMonitor.update(time=t, new_state=HealthState(new_state_index))
 
 
 class PatientStateMonitor:
@@ -54,17 +38,7 @@ class PatientStateMonitor:
         :param new_state: new state
         """
 
-        # update survival time
-        if new_state == HealthState.HIV_DEATH or HealthState.NATUAL_DEATH:
-            self.survivalTime = time
 
-        # update time until AIDS
-        if self.currentState != HealthState.AIDS and new_state == HealthState.AIDS:
-            self.ifDevelopedAIDS = True
-            self.timeToAIDS = time
-
-        # update current health state
-        self.currentState = new_state
 
 
 class Cohort:

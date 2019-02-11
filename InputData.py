@@ -45,24 +45,9 @@ def get_trans_prob_matrix(trans_matrix):
 
 
 def get_trans_rate_matrix(trans_matrix):
+    """
+    :param trans_matrix: transition matrix containing counts of transitions between states
+    :return: transition rate matrix
+    """
 
-    # find the transition probability matrix
-    trans_prob_matrix = get_trans_prob_matrix(trans_matrix=trans_matrix)
 
-    # find the transition rate matrix
-    trans_rate_matrix = Markov.discrete_to_continuous(
-        prob_matrix=trans_prob_matrix,
-        delta_t=1)
-
-    # calculate background mortality rate
-    mortality_rate = -np.log(1 - ANNUAL_PROB_BACKGROUND_MORT)
-
-    # add background mortality rate
-    for row in trans_rate_matrix:
-        row.append(mortality_rate)
-
-    # add 2 rows for HIV death and natural death
-    trans_rate_matrix.append([0] * len(HealthState))
-    trans_rate_matrix.append([0] * len(HealthState))
-
-    return trans_rate_matrix
