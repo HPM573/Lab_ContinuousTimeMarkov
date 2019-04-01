@@ -20,19 +20,19 @@ class Patient:
         """ simulate the patient over the specified simulation length """
 
         t = 0  # simulation time
-        if_stop = False  # set to true to stop the simulation
+        if_stop = False
 
-        # while the patient is alive and simulation length is not yet reached
         while not if_stop:
-
+            # find time to next event, and next state
             dt, new_state_index = self.gillespie.get_next_state(
                 current_state_index=self.stateMonitor.currentState.value,
                 rng=self.rng)
 
+            # stop if time to next event (dt) is None or the next event occurs beyond simulation length
             if dt is None or dt + t > sim_length:
                 if_stop = True
             else:
-                # increment time
+                # advance time to the time of next event
                 t += dt
                 # update health state
                 self.stateMonitor.update(time=t, new_state=HealthState(new_state_index))
