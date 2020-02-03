@@ -11,14 +11,14 @@ class Patient:
         :param trans_rate_matrix: transition rate matrix
         """
         self.id = id
-        self.rng = RVGs.RNG(seed=id)  # random number generator for this patient
-        # gillespie algorithm
-        self.gillespie = Markov.Gillespie(transition_rate_matrix=trans_rate_matrix)
+        self.transRateMatrix = trans_rate_matrix
         self.stateMonitor = PatientStateMonitor()  # patient state monitor
 
     def simulate(self, sim_length):
         """ simulate the patient over the specified simulation length """
 
+        # random number generator for this patient
+        rng = RVGs.RNG(seed=self.id)
 
 
 
@@ -42,34 +42,37 @@ class PatientStateMonitor:
 
 
 class Cohort:
-    def __init__(self, id, pop_size, transition_matrix):
+    def __init__(self, id, pop_size, trans_rate_matrix):
         """ create a cohort of patients
         :param id: cohort ID
         :param pop_size: population size of this cohort
-        :param transition_matrix: probability transition matrix
+        :param trans_rate_matrix: transition rate matrix
         """
         self.id = id
-        self.patients = []  # list of patients
+        self.popSize = pop_size,
+        self.transRateMatrix = trans_rate_matrix
         self.cohortOutcomes = CohortOutcomes()  # outcomes of the this simulated cohort
-
-        # populate the cohort
-        for i in range(pop_size):
-            # create a new patient (use id * pop_size + n as patient id)
-            patient = Patient(id=id * pop_size + i, trans_rate_matrix=transition_matrix)
-            # add the patient to the cohort
-            self.patients.append(patient)
 
     def simulate(self, sim_length):
         """ simulate the cohort of patients over the specified number of time-steps
         :param sim_length: simulation length
         """
+        # populate the cohort
+        patients = []
+        for i in range(self.popSize):
+            # create a new patient (use id * pop_size + n as patient id)
+            patient = Patient(id=self.id * self.popSize + i,
+                              trans_rate_matrix=self.transRateMatrix)
+            # add the patient to the cohort
+            patients.append(patient)
+
         # simulate all patients
-        for patient in self.patients:
+        for patient in patients:
             # simulate
             patient.simulate(sim_length)
 
         # store outputs of this simulation
-        self.cohortOutcomes.extract_outcomes(self.patients)
+        self.cohortOutcomes.extract_outcomes(simulated_patients=patients)
 
 
 class CohortOutcomes:
