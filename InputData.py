@@ -3,7 +3,7 @@ from enum import Enum
 import SimPy.MarkovClasses as Markov
 
 # simulation settings
-POP_SIZE = 5000         # cohort population size
+POP_SIZE = 4000         # cohort population size
 SIMULATION_LENGTH = 1000    # length of simulation (years)
 # annual probability of background mortality (number per year per 1,000 population)
 ANNUAL_PROB_BACKGROUND_MORT = 8.15 / 1000
@@ -51,7 +51,7 @@ def get_trans_rate_matrix(trans_matrix):
 
     # find the transition rate matrix
     trans_rate_matrix = Markov.discrete_to_continuous(
-        prob_matrix=trans_prob_matrix,
+        trans_prob_matrix=trans_prob_matrix,
         delta_t=1)
 
     # calculate background mortality rate
