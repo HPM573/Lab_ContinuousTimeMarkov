@@ -11,14 +11,17 @@ class Patient:
         :param trans_rate_matrix: transition rate matrix
         """
         self.id = id
-        # gillespie algorithm
-        self.gillespie = Markov.Gillespie(transition_rate_matrix=trans_rate_matrix)
+        self.transRateMatrix = trans_rate_matrix
         self.stateMonitor = PatientStateMonitor()  # patient state monitor
 
     def simulate(self, sim_length):
         """ simulate the patient over the specified simulation length """
 
-        rng = RVGs.RNG(seed=self.id)  # random number generator for this patient
+        # random number generator for this patient
+        rng = RVGs.RNG(seed=self.id)
+        # gillespie algorithm
+        gillespie = Markov.Gillespie(transition_rate_matrix=self.transRateMatrix)
+
         t = 0  # simulation time
         if_stop = False
 
@@ -26,7 +29,7 @@ class Patient:
             # find time until next event (dt), and next state
             # (note that the gillespie algorithm returns None for dt if the process
             # is in an absorbing state)
-            dt, new_state_index = self.gillespie.get_next_state(
+            dt, new_state_index = gillespie.get_next_state(
                 current_state_index=self.stateMonitor.currentState.value,
                 rng=rng)
 
