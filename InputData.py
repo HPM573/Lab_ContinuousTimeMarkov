@@ -16,7 +16,7 @@ TRANS_MATRIX = [
     ]
 
 
-class HealthState(Enum):
+class HealthStates(Enum):
     """ health states of patients with HIV """
     CD4_200to500 = 0
     CD4_200 = 1

@@ -1,7 +1,7 @@
 import SimPy.RandomVariantGenerators as RVGs
 import SimPy.MarkovClasses as Markov
 import SimPy.SamplePathClasses as PathCls
-from InputData import HealthState
+from InputData import HealthStates
 
 
 class Patient:
@@ -26,7 +26,7 @@ class PatientStateMonitor:
     """ to update patient outcomes (years survived, cost, etc.) throughout the simulation """
     def __init__(self):
 
-        self.currentState = HealthState.CD4_200to500    # current health state
+        self.currentState = HealthStates.CD4_200to500    # current health state
         self.survivalTime = None      # survival time
         self.timeToAIDS = None        # time to develop AIDS
         self.ifDevelopedAIDS = False  # if the patient developed AIDS
