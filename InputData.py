@@ -16,7 +16,7 @@ TRANS_MATRIX = [
     ]
 
 
-class HealthState(Enum):
+class HealthStates(Enum):
     """ health states of patients with HIV """
     CD4_200to500 = 0
     CD4_200 = 1
@@ -62,7 +62,7 @@ def get_trans_rate_matrix(trans_matrix):
         row.append(mortality_rate)
 
     # add 2 rows for HIV death and natural death
-    trans_rate_matrix.append([0] * len(HealthState))
-    trans_rate_matrix.append([0] * len(HealthState))
+    trans_rate_matrix.append([0] * len(HealthStates))
+    trans_rate_matrix.append([0] * len(HealthStates))
 
     return trans_rate_matrix
