@@ -43,6 +43,8 @@ class Patient:
                 if dt + t > sim_length:
                     # advance time to the end of the simulation and stop
                     t = sim_length
+                    # the patient stays in the current state until the end of the simulation
+                    new_state_index = self.stateMonitor.currentState
                     if_stop = True
                 else:
                     # advance time to the time of next event
