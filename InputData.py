@@ -1,6 +1,8 @@
-import numpy as np
 from enum import Enum
-import SimPy.MarkovClasses as Markov
+
+import numpy as np
+
+import SimPy.Markov as Markov
 
 # simulation settings
 POP_SIZE = 4000         # cohort population size
@@ -45,6 +47,10 @@ def get_trans_prob_matrix(trans_matrix):
 
 
 def get_trans_rate_matrix(trans_matrix):
+    """
+    :param trans_matrix: transition matrix containing counts of transitions between states
+    :return: transition rate matrix
+    """
 
     # find the transition probability matrix
     trans_prob_matrix = get_trans_prob_matrix(trans_matrix=trans_matrix)

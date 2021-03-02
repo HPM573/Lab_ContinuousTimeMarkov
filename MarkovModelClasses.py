@@ -1,6 +1,7 @@
-import SimPy.RandomVariantGenerators as RVGs
-import SimPy.MarkovClasses as Markov
-import SimPy.SamplePathClasses as PathCls
+import numpy as np
+
+import SimPy.Markov as Markov
+import SimPy.SamplePath as Path
 from InputData import HealthStates
 
 
@@ -18,7 +19,7 @@ class Patient:
         """ simulate the patient over the specified simulation length """
 
         # random number generator for this patient
-        rng = RVGs.RNG(seed=self.id)
+        rng = np.random.RandomState(seed=self.id)
         # gillespie algorithm
         gillespie = Markov.Gillespie(transition_rate_matrix=self.transRateMatrix)
 
@@ -33,14 +34,21 @@ class Patient:
                 current_state_index=self.stateMonitor.currentState.value,
                 rng=rng)
 
-            # stop if time to next event (dt) is None or the next event occurs beyond simulation length
-            if dt is None or dt + t > sim_length:
+            # stop if time to next event (dt) is None (i.e. we have reached an absorbing state)
+            if dt is None:
                 if_stop = True
+
             else:
-                # advance time to the time of next event
-                t += dt
+                # else if next event occurs beyond simulation length
+                if dt + t > sim_length:
+                    # advance time to the end of the simulation and stop
+                    t = sim_length
+                    if_stop = True
+                else:
+                    # advance time to the time of next event
+                    t += dt
                 # update health state
-                self.stateMonitor.update(time=t, new_state=HealthState(new_state_index))
+                self.stateMonitor.update(time=t, new_state=HealthStates(new_state_index))
 
 
 class PatientStateMonitor:
@@ -50,7 +58,6 @@ class PatientStateMonitor:
         self.currentState = HealthStates.CD4_200to500    # current health state
         self.survivalTime = None      # survival time
         self.timeToAIDS = None        # time to develop AIDS
-        self.ifDevelopedAIDS = False  # if the patient developed AIDS
 
     def update(self, time, new_state):
         """
@@ -65,7 +72,6 @@ class PatientStateMonitor:
 
         # update time until AIDS
         if self.currentState != HealthStates.AIDS and new_state == HealthStates.AIDS:
-            self.ifDevelopedAIDS = True
             self.timeToAIDS = time
 
         # update current health state
@@ -124,7 +130,7 @@ class CohortOutcomes:
         for patient in simulated_patients:
             if not (patient.stateMonitor.survivalTime is None):
                 self.survivalTimes.append(patient.stateMonitor.survivalTime)
-            if patient.stateMonitor.ifDevelopedAIDS:
+            if not (patient.stateMonitor.timeToAIDS is None):
                 self.timesToAIDS.append(patient.stateMonitor.timeToAIDS)
 
         # calculate mean survival time
@@ -133,7 +139,7 @@ class CohortOutcomes:
         self.meanTimeToAIDS = sum(self.timesToAIDS)/len(self.timesToAIDS)
 
         # survival curve
-        self.nLivingPatients = PathCls.PrevalencePathBatchUpdate(
+        self.nLivingPatients = Path.PrevalencePathBatchUpdate(
             name='# of living patients',
             initial_size=len(simulated_patients),
             times_of_changes=self.survivalTimes,
