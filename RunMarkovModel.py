@@ -1,7 +1,7 @@
+import InputData as D
 import MarkovModelClasses as Cls
 import SimPy.Plots.Histogram as Hist
 import SimPy.Plots.SamplePaths as Path
-import InputData as D
 
 # create a cohort
 myCohort = Cls.Cohort(id=1,
