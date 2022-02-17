@@ -7,7 +7,8 @@ import SimPy.Markov as Markov
 # simulation settings
 POP_SIZE = 4000         # cohort population size
 SIMULATION_LENGTH = 100    # length of simulation (years)
-# annual probability of background mortality (number per year per 1,000 population)
+# annual probability of background mortality among adults
+# (number per year per 1,000 population)
 ANNUAL_PROB_BACKGROUND_MORT = 8.15 / 1000
 
 # transition matrix
