@@ -1,8 +1,7 @@
 from enum import Enum
 
+import deampy.markov as markov
 import numpy as np
-
-import SimPy.Markov as Markov
 
 # simulation settings
 POP_SIZE = 4000         # cohort population size
@@ -57,7 +56,7 @@ def get_trans_rate_matrix(trans_matrix):
     trans_prob_matrix = get_trans_prob_matrix(trans_matrix=trans_matrix)
 
     # find the transition rate matrix
-    trans_rate_matrix = Markov.discrete_to_continuous(
+    trans_rate_matrix = markov.discrete_to_continuous(
         trans_prob_matrix=trans_prob_matrix,
         delta_t=1)
 

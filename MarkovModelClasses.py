@@ -1,7 +1,7 @@
 import numpy as np
+from deampy.markov import Gillespie
+from deampy.plots.sample_paths import PrevalencePathBatchUpdate
 
-import SimPy.Markov as Markov
-import SimPy.SamplePath as Path
 from InputData import HealthStates
 
 
@@ -21,7 +21,7 @@ class Patient:
         # random number generator for this patient
         rng = np.random.RandomState(seed=self.id)
         # gillespie algorithm
-        gillespie = Markov.Gillespie(transition_rate_matrix=self.transRateMatrix)
+        gillespie = Gillespie(transition_rate_matrix=self.transRateMatrix)
 
         t = 0  # simulation time
         if_stop = False
@@ -142,7 +142,7 @@ class CohortOutcomes:
         self.meanTimeToAIDS = sum(self.timesToAIDS)/len(self.timesToAIDS)
 
         # survival curve
-        self.nLivingPatients = Path.PrevalencePathBatchUpdate(
+        self.nLivingPatients = PrevalencePathBatchUpdate(
             name='# of living patients',
             initial_size=initial_pop_size,
             times_of_changes=self.survivalTimes,
