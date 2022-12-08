@@ -1,10 +1,11 @@
 from enum import Enum
 
-import deampy.markov as markov
 import numpy as np
 
+import deampy.markov as markov
+
 # simulation settings
-POP_SIZE = 4000         # cohort population size
+POP_SIZE = 5000         # cohort population size
 SIMULATION_LENGTH = 100    # length of simulation (years)
 # annual probability of background mortality among adults
 # (number per year per 1,000 population)
