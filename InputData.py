@@ -1,8 +1,7 @@
 from enum import Enum
 
-import numpy as np
-
 import deampy.markov as markov
+import numpy as np
 
 # simulation settings
 POP_SIZE = 5000         # cohort population size
@@ -47,9 +46,10 @@ def get_trans_prob_matrix(trans_matrix):
     return trans_prob_matrix
 
 
-def get_trans_rate_matrix(trans_matrix):
+def get_trans_rate_matrix(trans_matrix, include_background_mortality=True):
     """
     :param trans_matrix: transition matrix containing counts of transitions between states
+    :param include_background_mortality: (bool) if to include the background mortality in the matrix
     :return: transition rate matrix
     """
 
@@ -61,15 +61,21 @@ def get_trans_rate_matrix(trans_matrix):
         trans_prob_matrix=trans_prob_matrix,
         delta_t=1)
 
-    # calculate background mortality rate
-    mortality_rate = -np.log(1 - ANNUAL_PROB_BACKGROUND_MORT)
+    if include_background_mortality:
+        # calculate background mortality rate
+        mortality_rate = -np.log(1 - ANNUAL_PROB_BACKGROUND_MORT)
 
-    # add background mortality rate
-    for row in trans_rate_matrix:
-        row.append(mortality_rate)
+        # add background mortality rate
+        for row in trans_rate_matrix:
+            row.append(mortality_rate)
 
-    # add 2 rows for HIV death and natural death
-    trans_rate_matrix.append([0] * len(HealthStates))
-    trans_rate_matrix.append([0] * len(HealthStates))
+    # add rows for HIV and natual death states
+    if include_background_mortality:
+        # add two rows for natural death and HIV death
+        trans_rate_matrix.append([0] * len(HealthStates))
+        trans_rate_matrix.append([0] * len(HealthStates))
+    else:
+        # add one row for HIV death
+        trans_rate_matrix.append([0] * len(trans_matrix[0]))
 
     return trans_rate_matrix
