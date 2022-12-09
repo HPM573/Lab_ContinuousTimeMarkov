@@ -79,3 +79,7 @@ def get_trans_rate_matrix(trans_matrix, include_background_mortality=True):
         trans_rate_matrix.append([0] * len(trans_matrix[0]))
 
     return trans_rate_matrix
+
+
+# print(get_trans_rate_matrix(trans_matrix=TRANS_MATRIX, include_background_mortality=False))
+# print(get_trans_rate_matrix(trans_matrix=TRANS_MATRIX, include_background_mortality=True))
