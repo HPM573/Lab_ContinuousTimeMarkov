@@ -1,8 +1,8 @@
 import deampy.plots.histogram as hist
 import deampy.plots.sample_paths as path
 
-import InputData as D
-from MarkovModelClasses import Cohort
+import CTMarkovInputData as D
+from CTMarkovModelClasses import Cohort
 
 # create a cohort
 myCohort = Cohort(id=1,

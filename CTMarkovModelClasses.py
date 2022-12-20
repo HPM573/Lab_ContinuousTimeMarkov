@@ -2,7 +2,7 @@ import numpy as np
 from deampy.markov import Gillespie
 from deampy.plots.sample_paths import PrevalencePathBatchUpdate
 
-from InputData import HealthStates
+from CTMarkovInputData import HealthStates
 
 
 class Patient:
