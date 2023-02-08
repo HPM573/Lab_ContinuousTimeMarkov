@@ -2,8 +2,6 @@ from enum import Enum
 
 import numpy as np
 
-import SimPy.Markov as Markov
-
 # simulation settings
 POP_SIZE = 5000         # cohort population size
 SIMULATION_LENGTH = 100    # length of simulation (years)

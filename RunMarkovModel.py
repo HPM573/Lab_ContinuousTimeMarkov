@@ -1,25 +1,26 @@
-import InputData as D
-import MarkovModelClasses as Cls
-import SimPy.Plots.Histogram as Hist
-import SimPy.Plots.SamplePaths as Path
+import deampy.plots.histogram as hist
+import deampy.plots.sample_paths as path
+
+import CTMarkovInputData as D
+from CTMarkovModelClasses import Cohort
 
 # create a cohort
-myCohort = Cls.Cohort(id=1,
-                      pop_size=D.POP_SIZE,
-                      trans_rate_matrix=D.get_trans_rate_matrix(D.TRANS_MATRIX))
+myCohort = Cohort(id=1,
+                  pop_size=D.POP_SIZE,
+                  trans_rate_matrix=D.get_trans_rate_matrix(D.TRANS_MATRIX))
 
 # simulate the cohort over the specified time steps
 myCohort.simulate(sim_length=D.SIMULATION_LENGTH)
 
 # plot the sample path (survival curve)
-Path.plot_sample_path(
+path.plot_sample_path(
     sample_path=myCohort.cohortOutcomes.nLivingPatients,
     title='Survival Curve',
     x_label='Time-Step (Year)',
     y_label='Number Survived')
 
 # plot the histogram of survival times
-Hist.plot_histogram(
+hist.plot_histogram(
     data=myCohort.cohortOutcomes.survivalTimes,
     title='Histogram of Patient Survival Time',
     x_label='Survival Time (Year)',

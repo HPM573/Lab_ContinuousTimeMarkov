@@ -1,8 +1,7 @@
 import numpy as np
+from deampy.plots.sample_paths import PrevalencePathBatchUpdate
 
-import SimPy.Markov as Markov
-import SimPy.SamplePath as Path
-from InputData import HealthStates
+from CTMarkovInputData import HealthStates
 
 
 class Patient:
@@ -103,7 +102,7 @@ class CohortOutcomes:
         self.meanTimeToAIDS = sum(self.timesToAIDS)/len(self.timesToAIDS)
 
         # survival curve
-        self.nLivingPatients = Path.PrevalencePathBatchUpdate(
+        self.nLivingPatients = PrevalencePathBatchUpdate(
             name='# of living patients',
             initial_size=initial_pop_size,
             times_of_changes=self.survivalTimes,
