@@ -28,7 +28,7 @@ class PatientStateMonitor:
 
         self.currentState = HealthStates.CD4_200to500    # current health state
         self.survivalTime = None      # survival time
-        self.ifDevelopedAIDS = False  # if the patient developed AIDS
+        self.timeToAIDS = None  # time to AIDS
 
     def update(self, time, new_state):
         """
