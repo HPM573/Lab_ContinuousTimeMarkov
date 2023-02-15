@@ -72,8 +72,9 @@ class PatientStateMonitor:
         if new_state in (HealthStates.HIV_DEATH, HealthStates.NATUAL_DEATH):
             self.survivalTime = time
 
-        # update time until AIDS
-        if self.currentState != HealthStates.AIDS and new_state == HealthStates.AIDS:
+        # update time until AIDS (only if the patient has never developed AIDS before)
+        if self.timeToAIDS is None and \
+                (self.currentState != HealthStates.AIDS and new_state == HealthStates.AIDS):
             self.timeToAIDS = time
 
         # update current health state
