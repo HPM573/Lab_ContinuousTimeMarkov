@@ -8,7 +8,7 @@ POP_SIZE = 5000         # cohort population size
 SIMULATION_LENGTH = 100    # length of simulation (years)
 # annual probability of background mortality among adults
 # (number per year per 1,000 population)
-ANNUAL_PROB_BACKGROUND_MORT = 11.7 / 1000
+ANNUAL_PROB_BACKGROUND_MORT = 14.8 / 1000
 
 # transition matrix
 TRANS_MATRIX = [
