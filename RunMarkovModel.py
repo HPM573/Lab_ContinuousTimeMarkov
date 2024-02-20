@@ -16,8 +16,9 @@ myCohort.simulate(sim_length=D.SIMULATION_LENGTH)
 path.plot_sample_path(
     sample_path=myCohort.cohortOutcomes.nLivingPatients,
     title='Survival Curve',
-    x_label='Time-Step (Year)',
-    y_label='Number Survived')
+    x_label='Simulation Year',
+    y_label='Number Alive',
+    file_name='figs/survival_curve.png')
 
 # plot the histogram of survival times
 hist.plot_histogram(
@@ -25,7 +26,8 @@ hist.plot_histogram(
     title='Histogram of Patient Survival Time',
     x_label='Survival Time (Year)',
     y_label='Count',
-    bin_width=1)
+    bin_width=1,
+    file_name='figs/histogram.png')
 
 # print the patient survival time
 print('Mean survival time (years):',
