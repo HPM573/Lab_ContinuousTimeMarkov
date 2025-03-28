@@ -1,8 +1,8 @@
 import numpy as np
-from deampy.markov import Gillespie
-from deampy.plots.sample_paths import PrevalencePathBatchUpdate
 
 from CTMarkovInputData import HealthStates
+from deampy.markov import Gillespie
+from deampy.plots.sample_paths import PrevalencePathBatchUpdate
 
 
 class Patient:
@@ -21,7 +21,7 @@ class Patient:
         # random number generator for this patient
         rng = np.random.RandomState(seed=self.id)
         # gillespie algorithm
-        gillespie = Gillespie(transition_rate_matrix=self.transRateMatrix)
+        gillespie = Gillespie(transition_rate_matrix=self.transRateMatrix, state_descriptions=HealthStates)
 
         t = 0  # simulation time
         if_stop = False
@@ -30,8 +30,8 @@ class Patient:
             # find time until next event (dt), and next state
             # (note that the gillespie algorithm returns None for dt if the process
             # is in an absorbing state)
-            dt, new_state_index = gillespie.get_next_state(
-                current_state_index=self.stateMonitor.currentState.value,
+            dt, new_state = gillespie.get_next_state(
+                current_state=self.stateMonitor.currentState,
                 rng=rng)
 
             # stop if time to next event (dt) is None (i.e. we have reached an absorbing state)
@@ -44,13 +44,13 @@ class Patient:
                     # advance time to the end of the simulation and stop
                     t = sim_length
                     # the individual stays in the current state until the end of the simulation
-                    new_state_index = self.stateMonitor.currentState.value
+                    new_state = self.stateMonitor.currentState
                     if_stop = True
                 else:
                     # advance time to the time of next event
                     t += dt
                 # update health state
-                self.stateMonitor.update(time=t, new_state=HealthStates(new_state_index))
+                self.stateMonitor.update(time=t, new_state=new_state)
 
 
 class PatientStateMonitor:
