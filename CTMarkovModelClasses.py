@@ -90,7 +90,7 @@ class Cohort:
         self.id = id
         self.popSize = pop_size
         self.transRateMatrix = trans_rate_matrix
-        self.cohortOutcomes = CohortOutcomes()  # outcomes of the this simulated cohort
+        self.cohortOutcomes = CohortOutcomes()  # outcomes of this simulated cohort
 
     def simulate(self, sim_length):
         """ simulate the cohort of patients over the specified duration
