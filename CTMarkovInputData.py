@@ -60,7 +60,7 @@ def get_trans_rate_matrix(trans_matrix, include_background_mortality=True):
     # find the transition rate matrix
     trans_rate_matrix = markov.discrete_to_continuous(
         trans_prob_matrix=trans_prob_matrix,
-        delta_t=1)
+        delta_t=1, method='approx')
 
     if include_background_mortality:
         # calculate background mortality rate
